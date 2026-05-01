@@ -80,8 +80,53 @@ The system may:
 - Add tests for triage, SOS, permission, and anonymization logic when coding begins.
 - Do not commit secrets, API keys, real user data, or unverified real hospital phone numbers.
 - New dependencies require approval.
-- `main` and `develop` must not be pushed directly once git is initialized.
+- Keep `main` stable. Do not do experimental scaffolding or large feature work directly on `main`.
 - Keep changes scoped to the current task.
+
+## Git Branch And Rollback Rules
+
+Before any engineering implementation, scaffolding, dependency installation, or large document rewrite, create a dedicated branch first.
+
+Recommended flow:
+
+```bash
+git switch main
+git pull
+git switch -c feature/<short-task-name>
+```
+
+Examples:
+
+```bash
+git switch -c feature/wechat-miniapp-skeleton
+git switch -c feature/sos-flow-docs
+git switch -c feature/hospital-admin-skeleton
+```
+
+Review rule:
+
+- Keep `main` as the stable baseline.
+- Implement new work on a feature branch.
+- The owner reviews the result before merging.
+- If the owner is not satisfied, do not merge the branch.
+- If the work is satisfactory, merge it back to `main` and push.
+
+Rollback patterns:
+
+```bash
+# If the work is on a feature branch and should be discarded:
+git switch main
+git branch -D feature/<short-task-name>
+
+# If files were modified but not committed:
+git restore .
+git clean -fd
+
+# If a commit was already made and pushed/shared:
+git revert <commit-sha>
+```
+
+Avoid using destructive history rewrite commands such as `git reset --hard` on shared or pushed work unless the owner explicitly approves it and understands the risk.
 
 ## Handoff Rule
 
