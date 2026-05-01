@@ -1,0 +1,35 @@
+# macOS
+.DS_Store
+
+# Secrets and local env
+.env
+.env.*
+!.env.example
+
+# Node / TypeScript future build artifacts
+node_modules/
+dist/
+build/
+coverage/
+.turbo/
+.next/
+out/
+
+# WeChat Mini Program future artifacts
+miniprogram_npm/
+project.private.config.json
+
+# Logs and caches
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.cache/
+.temp/
+tmp/
+
+# Editor
+.idea/
+.vscode/
+
