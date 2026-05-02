@@ -1,0 +1,15 @@
+{
+  "name": "pet-emergency-platform",
+  "version": "0.0.0",
+  "private": true,
+  "description": "宠物急救分诊与到院前协同平台工程骨架。当前只有目录和配置占位，不包含业务代码。",
+  "packageManager": "pnpm@10.0.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*"
+  ]
+}
