@@ -1,0 +1,16 @@
+# 当前只保留评审边界示例。
+# 正式启用前，请把下面的占位 owner 替换为真实 GitHub 用户名或团队名，再取消注释。
+
+# /AGENTS.md @owner
+# /README.md @owner
+# /docs/ @owner
+
+# /apps/miniapp/ @frontend-owner
+# /apps/hospital-admin/ @frontend-owner
+# /apps/ops-admin/ @frontend-owner
+
+# /services/api/ @backend-owner
+# /packages/shared-types/ @backend-owner @frontend-owner
+# /packages/safety-rules/ @backend-owner @vet-advisor
+# /docs/项目规则.md @owner @vet-advisor
+# /docs/SOS急救实施规划.md @owner @vet-advisor

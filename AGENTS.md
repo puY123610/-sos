@@ -1,93 +1,128 @@
 # AGENTS.md
 
-## Project
+## 项目定位
 
-This is the long-term working context for the pet emergency triage and pre-arrival coordination platform.
+本项目是宠物急救分诊、医院联系、导航和到院前协同平台。
 
-The product is not an AI veterinarian. It is a pet emergency triage, hospital contact, navigation, and case-summary platform.
+本项目不是 AI 宠物医生。任何实现、文档和计划都不得把产品方向扩展成 AI 诊断、AI 开药或 AI 替代兽医。
 
-## Current Source Of Truth
+## 每次开始前必须读取
 
-When a new Codex window starts, read these files first:
+新窗口开始工作时，先读取：
 
 1. `AGENTS.md`
-2. `docs/项目进度.md`
-3. `docs/项目规则.md`
-4. `/Users/jack/Desktop/pet.md`
+2. `README.md`
+3. `docs/架构说明.md`
+4. `docs/接口文档.md`
+5. `docs/安全要求.md`
+6. `docs/分支与回滚.md`
+7. `更新记录.md`
+8. `/Users/jack/Desktop/pet.md`
 
-The previous prototype directory `/Users/jack/Desktop/项目/wod` was intentionally discarded. Do not continue from that prototype.
+旧原型目录 `/Users/jack/Desktop/项目/wod` 已废弃，不得继续沿用。
 
-## Current Product Direction
+## 当前阶段
 
-MVP positioning:
+当前阶段是工程骨架阶段。
 
-- Help pet owners start an emergency flow within 60 seconds.
-- The first screen should emphasize a large SOS emergency button.
-- The user should answer as few questions as possible after tapping SOS.
-- The system sends key information to the hospital side, and the doctor guides emergency measures by phone.
-- The user side should not show red/yellow/green risk levels.
-- The backend may keep red-flag markers for hospital prioritization and safety fallback.
-- Generate structured records for later authorized, anonymized AI training.
+已允许：
 
-The MVP starts with WeChat Mini Program first. H5, hospital admin, and operations admin follow the same monorepo architecture later.
+- 创建和维护 monorepo 目录边界。
+- 创建和维护 README、说明文档、环境变量样例和协作模板。
+- 维护小程序、后台、后端和共享包的占位目录。
 
-## Current Technical Direction
+仍禁止：
 
-Use one TypeScript monorepo when the project enters engineering implementation:
+- 写页面、组件、接口、数据库模型或业务函数。
+- 安装依赖。
+- 运行 Taro、NestJS、Next.js、Prisma 等脚手架。
+- 初始化微信开发者工具项目。
+- 提交真实密钥、真实用户数据或未经验证的真实医院资料。
 
-- Mini Program / H5: Taro + React + TypeScript
-- Hospital admin: Next.js + React + TypeScript
-- Operations admin: Next.js + React + TypeScript
-- Backend API: NestJS + TypeScript
-- Database: PostgreSQL
-- ORM: Prisma
-- Map provider: Gaode Map
-- AI integration: backend abstraction only, disabled by default in MVP
+进入可运行开发阶段前必须得到 Owner 明确批准。
 
-Do not introduce Python, Java, Go, Rust, native iOS, or native Android during MVP unless the user explicitly approves a new plan.
+## 技术方向
 
-## Current Stage
+正式工程实现采用一个 TypeScript monorepo：
 
-The current stage is document planning only.
+- 小程序/H5：Taro + React + TypeScript。
+- 医院后台：Next.js + React + TypeScript。
+- 运营后台：Next.js + React + TypeScript。
+- 后端 API：NestJS + TypeScript。
+- 数据库：PostgreSQL。
+- ORM：Prisma。
+- 地图供应商：高德地图。
+- AI：后端抽象，MVP 默认关闭。
 
-Do not write implementation code, scaffold apps, install dependencies, or initialize WeChat Developer Tools project until the user explicitly says to enter the coding/build stage.
+MVP 阶段不得擅自引入 Python、Java、Go、Rust、原生 iOS 或原生 Android。
 
-## Medical Safety Boundary
+## 产品边界
 
-The system must not:
+MVP 核心流程：
 
-- diagnose disease
-- prescribe medication
-- provide medication dosage
-- promise safety
-- promise cure
-- tell users to delay care when red-flag symptoms exist
-- let AI downgrade a red emergency to yellow or green
+1. 用户打开小程序。
+2. 点击首页大 SOS。
+3. 回答尽量少的问题。
+4. 系统补充联系方式、定位、宠物档案和提交时间。
+5. 系统把 SOS 信息发送给医院后台。
+6. 医生通过电话指导紧急措施。
+7. 医院记录处理结果。
+8. 平台沉淀结构化数据。
 
-The system may:
+用户端不展示红黄绿风险等级。后台可以保留红旗标记，用于医院优先处理和安全兜底。
 
-- collect structured emergency information
-- identify backend-only red-flag risks for hospital prioritization
-- recommend contacting a pet hospital
-- send SOS information to a hospital queue
-- support one-tap callback and navigation
-- generate case summaries
-- prepare owner-to-hospital communication text
+## 医疗安全边界
 
-## Development Rules
+系统不得：
 
-- Keep medical rules explicit in code and docs, not hidden only in prompts.
-- Add tests for triage, SOS, permission, and anonymization logic when coding begins.
-- Do not commit secrets, API keys, real user data, or unverified real hospital phone numbers.
-- New dependencies require approval.
-- Keep `main` stable. Do not do experimental scaffolding or large feature work directly on `main`.
-- Keep changes scoped to the current task.
+- 诊断疾病。
+- 开药。
+- 提供药物剂量。
+- 承诺安全。
+- 承诺治愈。
+- 建议用户在红旗症状下延迟就医。
+- 让 AI 替代医生电话指导。
+- 让 AI 或前端逻辑降级红旗风险。
 
-## Git Branch And Rollback Rules
+系统可以：
 
-Before any engineering implementation, scaffolding, dependency installation, or large document rewrite, create a dedicated branch first.
+- 收集结构化急救信息。
+- 提醒联系宠物医院。
+- 给医院展示后台红旗标记。
+- 支持一键回拨和导航。
+- 生成病例摘要。
+- 记录电话接诊过程。
+- 生成脱敏训练样本。
 
-Recommended flow:
+医疗规则必须显式写在代码和文档中，不能只藏在 Prompt 里。
+
+## AI 使用规则
+
+- MVP 默认关闭 AI。
+- AI 只预留后端接口和数据结构，不参与用户端决策。
+- 后续 AI 只能辅助信息整理、摘要生成和接线优先级建议。
+- AI 不得诊断、开药、给剂量、承诺安全或替代医生。
+- AI 不得把红旗风险降级。
+- 训练数据必须先脱敏。
+
+## 文档命名规则
+
+保留英文文件名的例外：
+
+- `README.md`
+- `AGENTS.md`
+- `.env.example`
+- 必要工具配置文件
+
+除此之外，新增 Markdown 文档必须使用中文文件名，内容默认使用中文。新增英文命名文档前必须先得到 Owner 明确批准。
+
+旧文档迁移后不得保留重复入口，避免后续 AI 读到过期规则。
+
+## Git 分支与回滚规则
+
+在工程实现、脚手架搭建、依赖安装、大型文档迁移前，必须创建专门分支。
+
+推荐流程：
 
 ```bash
 git switch main
@@ -95,45 +130,38 @@ git pull
 git switch -c feature/<short-task-name>
 ```
 
-Examples:
+Review 规则：
+
+- `main` 保持稳定。
+- 新工作在 feature 分支完成。
+- Owner 审阅后再决定是否合并。
+- Owner 不满意时，不合并该分支。
+
+回滚方式：
 
 ```bash
-git switch -c feature/wechat-miniapp-skeleton
-git switch -c feature/sos-flow-docs
-git switch -c feature/hospital-admin-skeleton
-```
-
-Review rule:
-
-- Keep `main` as the stable baseline.
-- Implement new work on a feature branch.
-- The owner reviews the result before merging.
-- If the owner is not satisfied, do not merge the branch.
-- If the work is satisfactory, merge it back to `main` and push.
-
-Rollback patterns:
-
-```bash
-# If the work is on a feature branch and should be discarded:
+# 如果工作还在 feature 分支且要整体丢弃
 git switch main
 git branch -D feature/<short-task-name>
 
-# If files were modified but not committed:
+# 如果文件改了但未提交
 git restore .
 git clean -fd
 
-# If a commit was already made and pushed/shared:
+# 如果提交已经推送或共享
 git revert <commit-sha>
 ```
 
-Avoid using destructive history rewrite commands such as `git reset --hard` on shared or pushed work unless the owner explicitly approves it and understands the risk.
+不得擅自使用 `git reset --hard` 等破坏性历史重写命令。
 
-## Handoff Rule
+## 交接规则
 
-At the end of every meaningful work session, update `docs/项目进度.md` with:
+每次有意义工作结束后，更新 `更新记录.md`，记录：
 
-- what changed
-- current status
-- next action
-- blockers or risks
-- files touched
+- 改了什么。
+- 当前状态。
+- 下一步动作。
+- 阻塞或风险。
+- 涉及文件。
+
+如果用户要求先调用某个本地技能，但当前环境没有该技能，必须说明缺失，并改用可验证命令完成检查。

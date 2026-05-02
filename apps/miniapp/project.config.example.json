@@ -1,0 +1,13 @@
+{
+  "description": "微信开发者工具导入占位配置。正式开发时再复制为 project.config.json，并填入合法 appid。",
+  "projectname": "pet-emergency-miniapp",
+  "appid": "touristappid",
+  "miniprogramRoot": "dist/",
+  "compileType": "miniprogram",
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "postcss": true,
+    "minified": true
+  }
+}
